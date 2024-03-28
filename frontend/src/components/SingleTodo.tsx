@@ -14,9 +14,15 @@ type Props = {
   todo: Todo;
   handleUpdate: (id: number, name: string) => void;
   handleDelete: (id: number) => void;
+  handleIsDone: (id: number, isDone: boolean) => void;
 };
 
-const SingleTodo = ({ todo, handleUpdate, handleDelete }: Props) => {
+const SingleTodo = ({
+  todo,
+  handleUpdate,
+  handleDelete,
+  handleIsDone,
+}: Props) => {
   const [editedName, setEditedName] = useState<string>(todo.todo);
   const [edit, setEdit] = useState(false);
 
@@ -65,7 +71,14 @@ const SingleTodo = ({ todo, handleUpdate, handleDelete }: Props) => {
           </Box>
         ) : (
           <>
-            <ListItemText primary={todo.todo} />
+            {todo.isDone ? (
+              <s>
+                <ListItemText primary={todo.todo} />
+              </s>
+            ) : (
+              <ListItemText primary={todo.todo} />
+            )}
+
             <ListItemSecondaryAction>
               <Button
                 variant="contained"
@@ -82,9 +95,19 @@ const SingleTodo = ({ todo, handleUpdate, handleDelete }: Props) => {
                 onClick={() => {
                   handleDelete(todo.id);
                 }}
+                sx={{ margin: "5px" }}
                 size="small"
               >
                 Delete
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleIsDone(todo.id, todo.isDone);
+                }}
+                size="small"
+              >
+                Done
               </Button>
             </ListItemSecondaryAction>
           </>

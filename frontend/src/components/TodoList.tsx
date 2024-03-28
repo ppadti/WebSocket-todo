@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
 import { Todo } from "../Models";
 import { Button, Container, List, TextField } from "@mui/material";
 import SingleTodo from "./SingleTodo";
@@ -59,6 +58,21 @@ const TodoList: React.FC = () => {
     }
   };
 
+  const handleIsDone = (id: number, isDone: boolean) => {
+    const ws = new WebSocket("ws://localhost:8080/ws");
+
+    ws.onopen = () => {
+      ws.send(
+        JSON.stringify({
+          action: "handleIsDone",
+          id,
+          isDone: !isDone,
+        })
+      );
+      ws.close();
+    };
+  };
+
   return (
     <Container maxWidth="sm">
       <h1>Todo List</h1>
@@ -96,6 +110,7 @@ const TodoList: React.FC = () => {
               todo={todo}
               handleDelete={handleDelete}
               handleUpdate={handleEdit}
+              handleIsDone={handleIsDone}
             />
           ))}
       </List>
