@@ -156,16 +156,16 @@ function App() {
   return (
     <>
       <AddToForm handleAdd={handleAdd} />
-
-      {todos.map((todo) => (
-        <SingleTodo
-          todo={todo}
-          key={todo.id}
-          handleEdit={handleEdit}
-          handleDone={handleDone}
-          handleDelete={handleDelete}
-        />
-      ))}
+      {todos &&
+        todos.map((todo) => (
+          <SingleTodo
+            todo={todo}
+            key={todo.id}
+            handleEdit={handleEdit}
+            handleDone={handleDone}
+            handleDelete={handleDelete}
+          />
+        ))}
     </>
   );
 }
